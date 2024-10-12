@@ -19,7 +19,7 @@ func hmacsha256(s, key string) string {
 	return string(hashed.Sum(nil))
 }
 
-func Sign(secretId, secretKey, host string, timestamp, expireTimestamp int64) string {
+func Sign(secretId, secretKey, token, host string, timestamp, expireTimestamp int64) string {
 	service := "clbia"
 	method := "POST"
 	contentType := "application/json"
@@ -53,5 +53,8 @@ func Sign(secretId, secretKey, host string, timestamp, expireTimestamp int64) st
 		timestamp,
 		expireTimestamp,
 		signature)
+	if token != "" {
+		authorization += ", Token=" + token
+	}
 	return authorization
 }
